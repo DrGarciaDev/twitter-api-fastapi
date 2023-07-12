@@ -37,6 +37,13 @@ class User(UserBase):
     )
     birth_date: Optional[date] = Field(None)
 
+class UserRegister(User):
+    password: str = Field(
+        ..., 
+        min_length=8,
+        max_length=64
+    )
+
 class tweet(BaseModel):
     tweet_id: UUID = Field(...)
     content: str = Field(
@@ -59,7 +66,7 @@ class Tweet(BaseModel):
     update_at: Optional[datetime] = Field(default=None)
     by: User = Field(...)
 
-    
+
 # Path operations 
 
 @app.get(path="/")
@@ -68,6 +75,7 @@ def home():
 
 ## Users
 
+### Register a user
 @app.post(
     path="/signup",
     response_model=User,
@@ -75,9 +83,25 @@ def home():
     summary="Register a User",
     tags=["Users"]
 )
-def signup():
-    pass
+def signup(): 
+    """
+    Signup
 
+    This path operation register a user in the app
+
+    Parameters: 
+        - Request body parameter
+            - user: UserRegister
+    
+    Returns a json with the basic user information: 
+        - user_id: UUID
+        - email: Emailstr
+        - first_name: str
+        - last_name: str
+        - birth_date: str
+    """
+
+### Login a user
 @app.post(
     path="/login",
     response_model=User,
@@ -85,19 +109,21 @@ def signup():
     summary="Login a User",
     tags=["Users"]
 )
-def login():
+def login(): 
     pass
 
+### Show all users
 @app.get(
     path="/users",
     response_model=List[User],
     status_code=status.HTTP_200_OK,
-    summary="Show all Users",
+    summary="Show all users",
     tags=["Users"]
 )
-def show_all_users():
+def show_all_users(): 
     pass
 
+### Show a user
 @app.get(
     path="/users/{user_id}",
     response_model=User,
@@ -105,9 +131,10 @@ def show_all_users():
     summary="Show a User",
     tags=["Users"]
 )
-def show_a_user():
+def show_a_user(): 
     pass
 
+### Delete a user
 @app.delete(
     path="/users/{user_id}/delete",
     response_model=User,
@@ -115,10 +142,10 @@ def show_a_user():
     summary="Delete a User",
     tags=["Users"]
 )
-def delete_a_user():
+def delete_a_user(): 
     pass
 
-
+### Update a user
 @app.put(
     path="/users/{user_id}/update",
     response_model=User,
@@ -126,7 +153,7 @@ def delete_a_user():
     summary="Update a User",
     tags=["Users"]
 )
-def update_a_user():
+def update_a_user(): 
     pass
 
 
